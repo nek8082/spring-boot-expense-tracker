@@ -139,7 +139,7 @@
 				<configuration>
 					<mainClass>com.nek.mysaasapp.MySaasAppApplication</mainClass>
 					<arguments>
-						<argument>-Dspring.profiles.active=development</argument>
+						<argument>--spring.profiles.active=development</argument>
 					</arguments>
 				</configuration>
 			</plugin>
