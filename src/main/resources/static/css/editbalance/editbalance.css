@@ -1,0 +1,26 @@
+.edit-initial-balance-form {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+.edit-initial-balance-form input {
+	width: 100%;
+	max-width: 300px;
+}
+.edit-initial-balance-form button {
+	width: auto;
+	padding: 0.5em 1.5em;
+}
+.btn-secondary {
+	background-color: #6c757d; /* Dunkelgrau */
+	border-color: #6c757d;
+}
+.btn-light {
+	background-color: #f8f9fa; /* Sehr helles Grau */
+	border-color: #f8f9fa;
+}
+h1 {
+	text-align: center; /* Zentriert den Text des h1-Elements */
+}

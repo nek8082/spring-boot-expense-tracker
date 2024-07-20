@@ -1,0 +1,76 @@
+@startuml
+actor Client
+participant "PaymentController" as PC
+participant "UserService" as US
+participant "StripeCheckoutService" as SCS
+participant "StripeValidateSubscriptionService" as SVSS
+participant "AppUserRepository" as AUR
+participant "Stripe Java Libary" as StripeLibary
+participant "Stripe Server" as StripeServer
+participant "HttpServletResponse" as Response
+database "User Database" as DB
+
+== Checkout Endpoint ==
+Client -> PC : POST /checkout
+PC -> US : isUserEmailVerified()
+alt email not verified
+    US -> PC : return false
+    PC -> Client : redirect to /verify-email
+else email verified
+    US -> PC : return true
+    PC -> SCS : buildStripeCheckoutSession()
+    SCS -> SCS : Stripe.apiKey = stripeProperties.getApiKey()
+    SCS -> US : getAuthenticatedUser()
+    US -> DB : fetch user
+    DB -> US : return user
+    alt user not authenticated
+        US -> SCS : return Optional.empty()
+        SCS -> Client : redirect to /private
+    else user authenticated
+        US -> SCS : return Optional.of(user)
+        SCS -> Stripe : create session (params)
+        Stripe -> SCS : return session
+        SCS -> PC : return session URL
+        PC -> Client : redirect to session URL
+    end
+end
+
+== Checkout Success Endpoint ==
+Client -> PC : GET /checkout-success
+PC -> US : setupUser()
+US -> DB : update user role
+DB -> US : confirm update
+PC -> Client : redirect to /premium
+
+== Webhook Endpoint ==
+StripeServer -> PC : POST /webhook (payload, signature)
+PC -> StripeLibary : constructEvent(payload, signature, secret)
+alt event constructed successfully
+    StripeLibary -> PC : return event
+    PC -> SVSS : handleStripeEvent(event)
+    SVSS -> SVSS : deserialize event
+    alt deserialization successful
+        SVSS -> SVSS : process event
+        alt invoice or session event
+            SVSS -> AUR : findByEmail(email)
+            AUR -> DB : fetch user
+            DB -> AUR : return user
+            alt user found
+                AUR -> SVSS : update user premium status
+                AUR -> DB : save user
+                DB -> AUR : confirm save
+                SVSS -> PC : return OK
+            else user not found
+                SVSS -> PC : return BAD REQUEST
+            end
+        else other event type
+            SVSS -> PC : return BAD REQUEST
+        end
+    else deserialization failed
+        SVSS -> PC : return BAD REQUEST
+    end
+else signature verification failed
+    PC -> Client : return BAD REQUEST
+end
+
+@enduml

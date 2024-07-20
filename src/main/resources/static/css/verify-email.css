@@ -1,0 +1,23 @@
+ .verify-email-container {
+	margin-top: 50px;
+	text-align: center;
+}
+
+.verify-email-message {
+	margin-bottom: 25px;
+}
+
+.go-home-btn {
+	background-color: #007bff;
+	color: white;
+	padding: 10px 20px;
+	text-decoration: none;
+	border-radius: 5px;
+	font-weight: bold;
+}
+
+.go-home-btn:hover {
+	background-color: #0056b3;
+	color: white;
+	text-decoration: none;
+}

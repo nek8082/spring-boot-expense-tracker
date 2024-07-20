@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Private</title>
+    <link rel="stylesheet" href="css/footer.css"/>
+    <link rel="stylesheet" href="css/editbalance/editbalance.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+</head>
+<body>
+<div th:replace="fragment/navbar :: navbar"></div>
+
+<div class="container">
+    <h1>Initialen Kassenstand aktualisieren</h1>
+
+    <form id="editInitialBalanceForm" class="edit-initial-balance-form" th:action="@{/updateInitialBalance}" method="post">
+        <label for="initialBalance">Betrag (in €):</label>
+        <input type="number" id="initialBalance" name="initialBalance" placeholder="z.B 12,50" required step="0.01" min="0">
+        <button type="submit" class="btn btn-secondary">Aktualisieren</button>
+        <a href="/public" class="btn btn-light">Abbrechen</a>
+    </form>
+</div>
+
+<div th:replace="fragment/footer :: footer"></div>
+<script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

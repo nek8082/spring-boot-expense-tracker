@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monatliche Statistiken</title>
+    <link rel="stylesheet" href="css/footer.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+</head>
+<body>
+<div th:replace="fragment/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="mt-3 mb-3">
+        <h1 th:text="'Monatliche Statistiken für das Jahr ' + ${selectedYear != null ? selectedYear : latestYear}">Monatliche Statistiken</h1>
+        <h2 style="color: #666; font-size: 1.2em;">Visualisierung der Einnahmen, Ausgaben und des Kassenstands</h2>
+    </div>
+
+    <form th:action="@{/stats}" method="get">
+        <div class="form-group">
+            <label for="year">Jahr wählen:</label>
+            <select id="year" name="year" class="form-control">
+                <th:block th:each="yr : ${#numbers.sequence(firstYear, latestYear)}">
+                    <option th:value="${yr}" th:text="${yr}" th:selected="${yr == selectedYear or (selectedYear == null and yr == latestYear)}"></option>
+                </th:block>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Filtern</button>
+    </form>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Monat</th>
+            <th>Einnahmen</th>
+            <th>Ausgaben</th>
+            <th>Steuern</th>
+            <th>Differenz (Einnahmen-Ausgaben)</th>
+            <th>Kassenstand am Monatsende</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry : ${stats}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${#numbers.formatCurrency(entry.value.totalIncome)}"></td>
+            <td th:text="${#numbers.formatCurrency(entry.value.totalExpenses)}"></td>
+            <td th:text="${#numbers.formatCurrency(entry.value.totalTaxAmount)}"></td>
+            <td th:text="${#numbers.formatCurrency(entry.value.resultingBalance)}"></td>
+            <td th:text="${#numbers.formatCurrency(entry.value.balanceAfter)}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <canvas id="myChart" width="400" height="200"></canvas>
+</div>
+
+<div th:replace="fragment/footer :: footer"></div>
+<script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // Annahme, dass Thymeleaf die Map als einfaches Objekt weitergibt
+    const statsMap = /*[[${stats}]]*/ {};
+
+    // Konvertiere das Objekt in ein Array für die Verwendung in Chart.js
+    const statsArray = Object.keys(statsMap).map(month => {
+        return {
+            month: month,
+            totalIncome: statsMap[month].totalIncome,
+            totalExpenses: statsMap[month].totalExpenses,
+            totalTaxAmount: statsMap[month].totalTaxAmount,
+            balanceAfter: statsMap[month].balanceAfter,
+            resultingBalance: statsMap[month].totalIncome - statsMap[month].totalExpenses - statsMap[month].totalTaxAmount
+        };
+    });
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: statsArray.map(stat => stat.month),
+            datasets: [{
+                label: 'Einnahmen',
+                data: statsArray.map(stat => stat.totalIncome),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Ausgaben',
+                data: statsArray.map(stat => stat.totalExpenses),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Kassenstand am Monatsende',
+                data: statsArray.map(stat => stat.balanceAfter),
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

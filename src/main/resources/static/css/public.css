@@ -1,0 +1,39 @@
+body {
+	font-family: 'Nunito', sans-serif; /* Moderne, saubere Schriftart */
+	background-color: #f8f9fa; /* Leichter Hintergrund für einen frischen Look */
+}
+
+h1, h2, h3 {
+	color: #0056b3; /* Konsistentes Dunkelblau */
+}
+
+h2 {
+	font-size: 2.25rem;
+	letter-spacing: 0.5px;
+}
+
+h3 {
+	font-size: 1.75rem;
+	font-weight: 700;
+}
+
+p {
+	font-size: 1.15rem;
+	color: #333;
+}
+
+.btn-primary {
+	background-color: #007bff;
+	border: none;
+	padding: 0.75rem 1.5rem;
+	transition: background-color 0.3s; /* Fügt eine sanfte Übergangsanimation hinzu */
+}
+
+.btn-primary:hover {
+	background-color: #0056b3; /* Dunkleres Blau beim Überfahren */
+}
+
+img {
+	border-radius: 8px; /* Fügt Bildern abgerundete Ecken hinzu */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Leichter Schatten für Tiefe */
+}

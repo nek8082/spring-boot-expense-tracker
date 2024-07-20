@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS app_user (
+    user_id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    premium_valid_to TIMESTAMP WITH TIME ZONE
+);

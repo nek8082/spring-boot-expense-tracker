@@ -1,0 +1,96 @@
+ body {
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4; /* Hintergrundfarbe für die gesamte Seite */
+}
+
+.dashboard {
+	padding: 50px;
+	background-color: #ffffff; /* Weißer Hintergrund für das Dashboard */
+	box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Leichter Schatten für das Dashboard */
+	margin: 0px; /* Kein Rand um das Dashboard */
+}
+
+.initial-balance-container {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.initial-balance {
+	margin-bottom: 20px;
+	font-size: 1.2rem;
+	background-color: #e9ecef; /* Hintergrundfarbe für die Balancen-Container */
+	padding: 10px;
+	border-radius: 5px; /* Abgerundete Ecken */
+}
+
+.btn-link {
+	padding: 0;
+	border: none;
+	background: none;
+	cursor: pointer;
+	color: #007bff;
+}
+
+.btn-link:hover, .btn-link:focus {
+	text-decoration: underline;
+	color: #0056b3; /* Dunklere Farbe beim Hover für bessere Sichtbarkeit */
+}
+
+.btn-primary {
+	margin-top: 10px;
+}
+
+.table th, .table td {
+	padding: 10px;
+	vertical-align: middle;
+}
+
+.table th:last-child, .table td:last-child {
+	width: 1%; /* Gibt der letzten Spalte eine minimale Breite, um Platz zu sparen */
+}
+
+.table-responsive {
+	padding: 0 15px;
+}
+
+.action-buttons button {
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+.bi-pencil-fill {
+	font-size: 1rem;
+	vertical-align: middle;
+}
+.filter-container {
+	margin-bottom: 20px; /* Abstand nach unten zum nächsten Element */
+	text-align: left; /* Linksbündige Ausrichtung der Elemente */
+	padding: 0 15px; /* Einheitliche Polsterung mit der Tabelle */
+}
+
+.filter-container label {
+	margin-right: 10px; /* Abstand zwischen Label und Eingabefeld */
+}
+
+.filter-container input {
+	margin-right: 10px; /* Abstand rechts vom Eingabefeld */
+}
+
+.filter-container button {
+	padding: 6px 12px; /* Größere Polsterung für mehr Fläche */
+	margin: 0 10px 0 0; /* Richtiges Margin setzen, um den Abstand anzupassen */
+	width: auto; /* Ermöglicht eine Anpassung der Breite an den Inhalt */
+	min-width: 150px; /* Mindestbreite für den Button */
+}
+
+.btn-secondary {
+	color: #fff; /* Weiße Textfarbe */
+	background-color: #6c757d; /* Dunkelgraue Hintergrundfarbe */
+	border-color: #6c757d; /* Dunkelgraue Randfarbe */
+}
+
+.btn-secondary:hover {
+	background-color: #5a6268; /* Etwas dunklerer Grauton beim Hover */
+	border-color: #545b62; /* Etwas dunklerer Grauton beim Rand beim Hover */
+}

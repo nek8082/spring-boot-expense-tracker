@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Private</title>
+    <link rel="stylesheet" href="/css/footer.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+</head>
+<body>
+<div th:replace="fragment/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="container mt-5">
+        <h2>Transaktion hinzufügen</h2>
+        <form action="/transaction/save" method="post">
+            <div class="form-group">
+                <label for="date">Datum:</label>
+                <input type="date" class="form-control" id="date" name="date" required placeholder="02.01.2024">
+            </div>
+            <div class="form-group">
+                <label for="voucherNumber">Belegnummer:</label>
+                <input type="text" class="form-control" id="voucherNumber" name="voucherNumber" required placeholder="VN017">
+            </div>
+            <div class="form-group">
+                <label for="description">Beschreibung:</label>
+                <input type="text" class="form-control" id="description" name="description" required placeholder="Serverwartung">
+            </div>
+            <div class="form-group">
+                <label for="category">Kategorie:</label>
+                <input type="text" class="form-control" id="category" name="category" required placeholder="IT Services">
+            </div>
+            <div class="form-group">
+                <label for="paymentMethod">Zahlungsmethode:</label>
+                <input type="text" class="form-control" id="paymentMethod" name="paymentMethod" required placeholder="Kreditkarte">
+            </div>
+            <div class="form-group">
+                <label for="counterAccount">Gegenkonto:</label>
+                <input type="text" class="form-control" id="counterAccount" name="counterAccount" required placeholder="4051">
+            </div>
+            <div class="form-group">
+                <label for="income">Einnahmen:</label>
+                <input type="number" class="form-control" id="income" name="income" step="0.01" required placeholder="0,00 €">
+            </div>
+            <div class="form-group">
+                <label for="expenses">Ausgaben:</label>
+                <input type="number" class="form-control" id="expenses" name="expenses" step="0.01" required placeholder="200,00 €">
+            </div>
+            <div class="form-group">
+                <label for="taxRate">Steuersatz:</label>
+                <input type="number" class="form-control" id="taxRate" name="taxRate" step="0.01" required placeholder="19,00 %">
+            </div>
+            <div class="form-group">
+                <label for="remarks">Bemerkungen:</label>
+                <input type="text" class="form-control" id="remarks" name="remarks" placeholder="Monatliche Wartung der Serverhardware">
+            </div>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <button type="submit" class="btn btn-primary mt-3">Speichern</button>
+            <a href="/public" class="btn btn-secondary mt-3" role="button">Abbrechen</a>
+        </form>
+    </div>
+
+</div>
+
+<div th:replace="fragment/footer :: footer"></div>
+<script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

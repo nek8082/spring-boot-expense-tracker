@@ -1,0 +1,29 @@
+@startuml
+actor Client
+participant "EditBalanceController" as EBC
+participant "UserService" as US
+participant "AppUserRepository" as UR
+database "User Database" as DB
+
+== Get Initial Balance Endpoint ==
+Client -> EBC : GET /updateInitialBalance
+EBC -> Client : editbalance/edit-balance (view)
+
+== Update Initial Balance Endpoint ==
+Client -> EBC : POST /updateInitialBalance (initialBalance)
+EBC -> US : getAuthenticatedUser()
+US -> DB : fetch user
+DB -> US : return user
+alt user authenticated
+    US -> EBC : return Optional.of(user)
+    EBC -> EBC : setInitialBalance(initialBalance)
+    EBC -> UR : save(user)
+    UR -> DB : update user
+    DB -> UR : confirm save
+    EBC -> Client : redirect to /premium
+else user not authenticated
+    US -> EBC : return Optional.empty()
+    EBC -> Client : redirect to /premium (which will give a 403)
+end
+
+@enduml

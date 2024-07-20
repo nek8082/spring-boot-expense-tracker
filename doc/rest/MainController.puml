@@ -1,0 +1,48 @@
+@startuml
+actor Client
+participant "MainController" as MC
+participant "UserService" as US
+database "User Database" as DB
+
+== Root Endpoint ==
+Client -> MC : GET /
+MC -> MC : rootEndpoint()
+MC -> Client : redirect to /public
+
+== Public Endpoint ==
+Client -> MC : GET /public
+MC -> US : getAuthenticatedUser()
+US -> DB : fetch user
+DB -> US : return user
+alt user is not authenticated
+    US -> MC : return Optional.empty()
+    MC -> Client : public
+else user is verified
+    US -> MC : return Optional.of(user)
+    MC -> MC : check user role
+    alt user has ROLE_VERIFIED
+        MC -> Client : redirect to /private
+    else user has ROLE_PREMIUM
+        MC -> Client : redirect to /premium
+    else
+        MC -> Client : public
+    end
+end
+
+== Private Endpoint ==
+Client -> MC : GET /private
+MC -> US : isUserEmailVerified()
+alt email not verified
+    US -> MC : return false
+    MC -> Client : redirect to /verify-email
+else email verified
+    US -> MC : return true
+    MC -> Client : private
+end
+
+== Verify Email Endpoint ==
+Client -> MC : GET /verify-email
+MC -> MC : verifyEmailEndpoint()
+MC -> Client : verify-email
+
+@enduml

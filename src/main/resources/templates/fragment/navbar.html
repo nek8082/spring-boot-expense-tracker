@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Navbar Fragment</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm" th:fragment="navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/public">CashKontrolleur</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item mb-2 mb-lg-0" sec:authorize="hasRole('ROLE_PREMIUM')">
+                    <a class="btn btn-outline-primary" th:href="@{/public}" role="button" style="margin-right: 8px;">Dashboard</a>
+                </li>
+                <!-- Conditional display for premium users -->
+                <li class="nav-item mb-2 mb-lg-0" sec:authorize="hasRole('ROLE_PREMIUM')">
+                    <a class="btn btn-outline-primary" th:href="@{/stats}" role="button" style="margin-right: 8px;">Auswertung</a>
+                </li>
+                <li class="nav-item mb-2 mb-lg-0" sec:authorize="hasRole('ROLE_PREMIUM')">
+                    <a class="btn btn-outline-primary" th:href="@{/export}" role="button" style="margin-right: 8px;">Export</a>
+                </li>
+                <!-- General links for authenticated users -->
+                <li class="nav-item mb-2 mb-lg-0" sec:authorize="isAuthenticated()">
+                    <a class="btn btn-outline-primary" th:href="@{/profile}" role="button" style="margin-right: 8px;">Profil</a>
+                </li>
+                <li class="nav-item mb-2 mb-lg-0" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="form-inline">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                </li>
+                <!-- Display only when no user is authenticated -->
+                <li class="nav-item mb-2 mb-lg-0" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="/private">Login</a>
+                </li>
+                <li class="nav-item mb-2 mb-lg-0" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="/private">Registrieren</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</th:fragment>
+</body>
+</html>

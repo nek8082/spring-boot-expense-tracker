@@ -1,0 +1,62 @@
+@startuml
+actor Client
+participant "DashboardController" as DC
+participant "UserService" as US
+participant "TransactionRepository" as TR
+database "User Database" as DB
+participant "Model" as M
+
+== Premium Endpoint ==
+Client -> DC : GET /premium
+DC -> DC : premiumEndpoint(model)
+DC -> DC : handleDashboardRequest(model)
+DC -> US : getAuthenticatedUser()
+US -> DB : fetch user
+DB -> US : return user
+alt user not authenticated
+    US -> DC : return Optional.empty()
+    DC -> Client : redirect to /public
+else user authenticated
+    US -> DC : return Optional.of(user)
+    DC -> TR : findByUser(user)
+    TR -> DB : fetch transactions
+    DB -> TR : return transactions
+    TR -> DC : return transactions
+    DC -> DC : setBalanceAfterForAllEntries(user.initialBalance, transactions)
+    DC -> DC : addCommonAttributes(model, user, transactions)
+    note right of DC : Common Attributes for template are:\n - initialBalance\n - transactions\n - totalIncome\n - totalExpense\n - totalTaxAmount
+    DC -> M : add attributes
+    DC -> Client : premium (view)
+end
+
+== Filter Endpoint ==
+Client -> DC : POST /filter (dateFilter)
+alt dateFilter is empty or null
+    DC -> Client : redirect to /public
+else dateFilter not empty
+    DC -> DC : handleDashboardRequest(model, dateFilter)
+    DC -> US : getAuthenticatedUser()
+    US -> DB : fetch user
+    DB -> US : return user
+    alt user not authenticated
+        US -> DC : return Optional.empty()
+        DC -> Client : redirect to /public
+    else user authenticated
+        US -> DC : return Optional.of(user)
+        DC -> TR : findByUser(user)
+        TR -> DB : fetch transactions
+        DB -> TR : return transactions
+        TR -> DC : return transactions
+        DC -> DC : setBalanceAfterForAllEntries(initialBalance, transactions)
+        DC -> DC : addCurrentAmountAttribute(model, user, transactions)
+        DC -> DC : filter transactions by dateFilter
+        alt date parsing fails
+            DC -> Client : redirect to /public
+        else date parsing succeeds
+            DC -> DC : addCommonAttributes(model, user, transactions)
+            DC -> M : add attributes
+            DC -> Client : premium (view)
+        end
+    end
+end
+@enduml

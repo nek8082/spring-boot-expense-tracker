@@ -1,0 +1,12 @@
+ .header-section {
+	margin-top: 20px; /* Weitere Anpassung des oberen Abstands für die Überschrift */
+	margin-bottom: 20px; /* Abstand nach unten für bessere Trennung */
+}
+.header-section h1 {
+	color: #0056b3; /* Dunkelblau, passend zum Bootstrap-Primary-Color */
+	margin-bottom: 10px; /* Weniger Abstand unter der Überschrift, damit es kompakter aussieht */
+}
+.header-section p {
+	font-size: 1.1rem; /* Etwas größerer Text für die Beschreibung */
+	color: #555; /* Dunkelgrau für die Beschreibung */
+}

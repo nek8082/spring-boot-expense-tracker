@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CashKontrolleur</title>
+    <link rel="stylesheet" href="css/footer.css"/>
+    <link rel="stylesheet" href="css/public.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/custom.css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+</head>
+<body>
+
+<div th:replace="fragment/navbar :: navbar"></div>
+
+<!-- Hero Section -->
+<section class="hero-section text-center">
+    <div class="container pt-5 pb-5">
+        <h1 class="display-3 fw-bold">Effizientes Kassenbuch Management</h1>
+        <p class="lead">Behalten Sie den Überblick über Ihre Finanzen mit CashKontrolleur</p>
+        <a href="/private" class="btn btn-primary btn-lg mt-3">Jetzt starten</a>
+    </div>
+</section>
+
+
+<!-- Features Section -->
+<section id="features" class="py-5">
+    <div class="container">
+        <h2 class="text-center display-4 mb-5">Funktionen von CashKontrolleur</h2>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="text-center mb-4">Dashboard-Übersicht</h2>
+                <img src="/images/dashboard.png" alt="Dashboard Overview" class="img-fluid mb-3">
+                <p>Erhalten Sie schnelle Einblicke in Ihren aktuellen Kassenstand und monatliche Statistiken.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistical Analysis Section -->
+<section id="statistics" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Statistische Analysen</h2>
+        <p class="text-center">Analysieren Sie Ihre finanziellen Daten durch umfassende grafische Darstellungen und Berichte.</p>
+        <div class="text-center">
+            <img src="/images/stats.png" alt="Statistical Analysis" class="img-fluid">
+        </div>
+    </div>
+</section>
+
+<!-- Export Functionality Section -->
+<section id="export" class="py-5">
+    <div class="container">
+        <h2 class="text-center">Exportfunktionen</h2>
+        <p class="text-center">Exportieren Sie Ihre Daten einfach in verschiedene Formate wie DATEV-CSV oder Excel für Ihre Buchhaltung oder Steuererklärung.</p>
+        <div class="text-center">
+            <img src="/images/export.png" alt="Export Data" class="img-fluid">
+        </div>
+    </div>
+</section>
+
+
+<div th:replace="fragment/footer :: footer"></div>
+
+<script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

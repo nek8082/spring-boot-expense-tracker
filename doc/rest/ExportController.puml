@@ -1,0 +1,45 @@
+<@startuml
+ actor Client
+ participant "ExportController" as EC
+ participant "TransactionRepository" as TR
+ participant "DatevExportService" as DES
+ participant "HttpServletResponse" as HR
+ database "Transaction Database" as DB
+
+ == Export Endpoint ==
+ Client -> EC : GET /export
+ EC -> Client : export/export (view)
+
+ == Export Transactions to CSV Endpoint ==
+ Client -> EC : POST /datev-csv
+ EC -> TR : findAll()
+ TR -> DB : fetch all transactions
+ DB -> TR : return transactions
+ TR -> EC : return transactions
+ EC -> HR : setContentType("text/csv")
+ EC -> HR : setHeader("Content-Disposition", attachment; filename="transactions.csv")
+ EC -> HR : getWriter()
+ HR -> EC : return writer
+ EC -> DES : exportTransactionsToCsv(transactions, writer)
+ alt successful export
+     DES -> HR : write CSV data
+     HR -> EC : close writer
+ else exception occurs
+     EC -> HR : log error
+ end
+
+ == Export Transactions to Excel Endpoint ==
+ Client -> EC : POST /excel
+ EC -> TR : findAll()
+ TR -> DB : fetch all transactions
+ DB -> TR : return transactions
+ TR -> EC : return transactions
+ EC -> DES : exportTransactionsToExcel(transactions)
+ DES -> EC : return excelFile
+ EC -> Client : ResponseEntity.ok()
+ EC -> Client : ResponseEntity.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"transactions.xlsx\"")
+ EC -> Client : ResponseEntity.contentType(MediaType.APPLICATION_EXCEL)
+ EC -> Client : ResponseEntity.body(excelFile)
+
+ @enduml
+>

@@ -1,0 +1,65 @@
+@startuml
+actor Client
+participant "ProfileController" as PC
+participant "UserService" as US
+participant "Auth0Service" as Auth0
+participant "StripeCancelSubscriptionService" as SCS
+participant "AppUserRepository" as AUR
+participant "Stripe Java Library" as Stripe
+participant "HttpServletRequest" as Request
+participant "SecurityContextLogoutHandler" as LogoutHandler
+participant "Auth API" as AuthAPI
+participant "Token Request" as TokenReq
+participant "Management API" as MgmtAPI
+
+== Profile Endpoint ==
+Client -> PC : GET /profile
+PC -> US : getAuthenticatedUser()
+alt authenticated user found
+    US -> PC : return user
+    PC -> Client : profile/profile (view)
+else no authenticated user found
+    US -> PC : return empty
+    PC -> Client : redirect to /public
+end
+
+== Delete Profile Endpoint ==
+Client -> PC : POST /profile/delete
+PC -> US : deleteUser()
+US -> US : getLoggedInOidcUser()
+alt logged in user found
+    US -> Auth0 : deleteUser(user)
+    Auth0 -> AuthAPI : fetchAccessToken()
+    AuthAPI -> TokenReq : requestToken()
+    TokenReq -> Auth0 : return accessToken
+    Auth0 -> MgmtAPI : newBuilder()
+    MgmtAPI -> Auth0 : build()
+    Auth0 -> MgmtAPI : deleteUser()
+    alt user deleted successfully
+        MgmtAPI -> Auth0 : log info
+    else deletion failed
+        MgmtAPI -> Auth0 : log error
+    end
+    Auth0 -> US : log deletion status
+end
+alt user is premium
+    US -> SCS : cancelSubscription(user)
+    SCS -> Stripe : retrieve subscription
+    alt subscription retrieved
+        Stripe -> SCS : return subscription
+        SCS -> Stripe : cancel subscription
+        Stripe -> SCS : confirm cancellation
+        SCS -> US : log cancellation success
+    else failed to retrieve
+        Stripe -> SCS : error
+        SCS -> US : log error
+    end
+else if not premium or no subscription
+    US -> AUR : delete user
+    AUR -> US : confirm deletion
+end
+US -> LogoutHandler : logout(request)
+LogoutHandler -> PC : log user out
+PC -> Client : redirect to /public
+
+@enduml

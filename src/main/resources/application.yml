@@ -1,0 +1,64 @@
+custom:
+  remove-payment: ${REMOVE_PAYMENT:false}
+server:
+  port: 8081
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+    schemas: saas
+    table: flyway_schema_version
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: ${KEYCLOAK_CLIENT_ID}
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
+            authorization-grant-type: authorization_code
+            redirect-uri: ${KEYCLOAK_REDIRECT_URI}
+            scope: openid, profile, email
+        provider:
+            keycloak:
+              issuer-uri: "https://${proxy.host}/keycloak/realms/${keycloak.realm}"
+              token-uri: "http://${keycloak.host}:${keycloak.port}/keycloak/realms/${keycloak.realm}/protocol/openid-connect/token"
+              user-info-uri: "http://${keycloak.host}:${keycloak.port}/keycloak/realms/${keycloak.realm}/protocol/openid-connect/userinfo"
+              jwk-set-uri: "http://${keycloak.host}:${keycloak.port}/keycloak/realms/${keycloak.realm}/protocol/openid-connect/certs"
+              authorization-uri: "${spring.security.oauth2.client.provider.keycloak.issuer-uri}/protocol/openid-connect/auth"
+      resourceserver:
+        jwt:
+          issuer-uri: "${spring.security.oauth2.client.provider.keycloak.issuer-uri}"
+
+proxy:
+  host: ${PROXY_HOST}
+
+stripe:
+  api-key: ${STRIPE_TEST_API_KEY}
+  price: ${STRIPE_TEST_PRICE}
+  webhook-secret: ${STRIPE_TEST_WEBHOOK_SECRET}
+  manage-subscription-url: ${STRIPE_TEST_MANAGEMENT_SUBSCRIPTION_URL}
+  base-url: ${STRIPE_BASE_URL}
+
+keycloak:
+  host: ${KEYCLOAK_HOST}
+  port: ${KEYCLOAK_PORT}
+  auth-server-url: "http://${keycloak.host}:${keycloak.port}/keycloak"
+  realm: ${KEYCLOAK_REALM}
+  client-id: ${spring.security.oauth2.client.registration.keycloak.client-id}
+  client-secret: ${spring.security.oauth2.client.registration.keycloak.client-secret}
+  # Used for deleting users from Keycloak
+  technical-user:
+    username: ${TECHNICAL_USER_USERNAME}
+    password: ${TECHNICAL_USER_PASSWORD}
+
+logging:
+  level:
+    org.springframework.security: DEBUG

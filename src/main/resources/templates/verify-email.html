@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>E-Mail-Verifizierung erforderlich</title>
+    <link rel="stylesheet" href="css/footer.css"/>
+    <link rel="stylesheet" href="css/verify-email.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+</head>
+<body>
+<div th:replace="fragment/navbar :: navbar"></div>
+<div class="container verify-email-container">
+    <h1 class="verify-email-message">Ihr Konto ist fast fertig!</h1>
+    <p>Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu verifizieren. Nach der Verifizierung können Sie sich erneut anmelden und alle Funktionen nutzen.</p>
+    <p>Wir freuen uns, Sie an Bord zu haben und sehen uns hoffentlich bald!</p>
+</div>
+
+<div th:replace="fragment/footer :: footer"></div>
+<script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

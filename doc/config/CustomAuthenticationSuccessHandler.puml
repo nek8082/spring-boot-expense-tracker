@@ -1,0 +1,56 @@
+@startuml
+actor Client
+participant "HttpServletRequest" as Request
+participant "HttpServletResponse" as Response
+participant "Authentication" as Auth
+participant "SecurityContextHolder" as SCH
+participant "UserService" as US
+participant "AppUserRepository" as AUR
+participant "CustomProperties" as CP
+database "User Database" as DB
+
+Client -> Request : send login data
+Request -> Auth : authenticate
+Auth -> SCH : save Auth context
+SCH -> Response : onAuthenticationSuccess()
+
+Response -> US : setupUser()
+US -> US : saveUserOnFirstLogin()
+alt New User
+    US -> DB : create new user
+    DB -> US : confirm creation
+end
+US -> US : setUserRoleAfterAuth()
+US -> US : getAuthenticatedUser()
+US -> DB : fetch user
+DB -> US : return user
+US -> US : updateRoleBasedOnPremiumValidToTimestamp()
+US -> AUR : save updated user
+AUR -> DB : confirm save
+US -> US : updateSecurityContextWithNewRole()
+US -> SCH : update Authentication context
+
+Response -> SCH : getAuthentication()
+SCH -> Response : return Auth
+
+Response -> Auth : getAuthorities()
+Auth -> Response : return authorities
+
+alt authority is ROLE_PREMIUM
+    Response -> Client : redirect to CHECKOUT_SUCCESS_URL
+else authority is ROLE_VERIFIED and payment not disabled
+    Response -> Client : redirect to PRIVATE_URL
+else authority is ROLE_UNVERIFIED
+    Response -> Client : redirect to VERIFY_EMAIL_URL
+else payment is disabled
+    Response -> US : getAuthenticatedUser()
+    US -> DB : fetch user
+    DB -> US : return user
+    US -> AUR : updateUserRole(ROLE_PREMIUM)
+    US -> AUR : updateUserPremiumValidTo(500 years from now)
+    AUR -> DB : save user
+    DB -> AUR : confirm save
+    Response -> Client : redirect to CHECKOUT_SUCCESS_URL
+end
+
+@enduml

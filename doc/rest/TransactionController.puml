@@ -1,0 +1,75 @@
+@startuml
+actor Client
+participant "TransactionController" as TC
+participant "UserService" as US
+participant "TransactionRepository" as TR
+participant "Model" as M
+
+== Get Save Transaction Endpoint ==
+Client -> TC : GET /transaction/save
+TC -> Client : transaction/save (view)
+
+== Get Edit Transaction Endpoint ==
+Client -> TC : GET /transaction/edit/{transactionId}
+TC -> US : getAuthenticatedUser()
+US -> TC : return user
+alt user authenticated
+    TC -> TR : findByUser(user)
+    TR -> TC : return transactions
+    TC -> TR : findById(transactionId)
+    TR -> TC : return transaction
+    alt transaction belongs to user
+        TC -> M : add transaction details to model
+        TC -> Client : transaction/edit (view)
+    else
+        TC -> Client : redirect to /public
+    end
+else user not authenticated
+    TC -> Client : redirect to /public
+end
+
+== Post Edit Transaction Endpoint ==
+Client -> TC : POST /transaction/edit
+TC -> US : getAuthenticatedUser()
+US -> TC : return user
+alt user authenticated
+    TC -> TR : findByUser(user)
+    TR -> TC : return transactions
+    TC -> TR : findById(transaction.transactionId)
+    TR -> TC : return transaction
+    alt transaction belongs to user
+        TC -> TR : update transaction
+        TR -> TC : save transaction
+        TC -> Client : redirect to /public
+    else
+        TC -> Client : redirect to /public
+    end
+else
+    TC -> Client : redirect to /public
+end
+
+== Post Save Transaction Endpoint ==
+Client -> TC : POST /transaction/save
+TC -> US : getAuthenticatedUser()
+US -> TC : return user
+alt user authenticated
+    TC -> TR : create new transaction
+    TR -> TC : save new transaction
+    TC -> Client : redirect to /public
+else
+    TC -> Client : redirect to /public
+end
+
+== Post Delete Transaction Endpoint ==
+Client -> TC : POST /transaction/delete
+TC -> US : getAuthenticatedUser()
+US -> TC : return user
+alt user authenticated
+    TC -> TR : deleteById(transaction.id)
+    TR -> TC : confirm deletion
+    TC -> Client : redirect to /public
+else
+    TC -> Client : redirect to /public
+end
+
+@enduml

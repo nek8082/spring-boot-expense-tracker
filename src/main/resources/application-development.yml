@@ -1,0 +1,15 @@
+# In development, we cannot talk to the Keycloak Server via the back channel, because it's running in a docker network
+# We have to use the front channel proxy to talk to the Keycloak Server
+
+keycloak:
+  auth-server-url: "https://${proxy.host}/keycloak"
+
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: "${spring.security.oauth2.client.provider.keycloak.issuer-uri}/protocol/openid-connect/token"
+            user-info-uri: "${spring.security.oauth2.client.provider.keycloak.issuer-uri}/protocol/openid-connect/userinfo"
+            jwk-set-uri: "${spring.security.oauth2.client.provider.keycloak.issuer-uri}/protocol/openid-connect/certs"

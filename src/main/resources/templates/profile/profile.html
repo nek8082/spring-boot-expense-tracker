@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profil</title>
+    <link rel="stylesheet" href="css/footer.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+</head>
+<body>
+<div th:replace="fragment/navbar :: navbar"></div>
+
+<div class="container mt-4">
+    <h1>Profil</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Deine Informationen</h5>
+            <p class="card-text"><strong>Email:</strong> <span th:text="${email}">Email-Adresse</span></p>
+            <p class="card-text"><strong>Premium gültig bis:</strong> <span th:text="${premiumValidTo}">Premium-Enddatum</span></p>
+            <!-- Link zur Verwaltung des Abonnements -->
+            <a th:href="${manageUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-link">Abonnement verwalten</a>
+        </div>
+    </div>
+
+    <form th:action="@{/profile}" method="post" class="mt-3" id="deleteProfileForm">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit" class="btn btn-danger">Profil löschen</button>
+    </form>
+</div>
+
+<!-- Modal für Bestätigung -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Profil und Abonnement löschen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Möchten Sie wirklich Ihr Profil und (falls vorhanden) Ihr Abonnement kündigen? Nach der Kündigung haben Sie keinen
+                Zugriff mehr auf Ihre Daten. Diese Aktion kann nicht rückgängig gemacht werden.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Löschen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragment/footer :: footer"></div>
+<script src="/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('deleteProfileForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Verhindert das sofortige Absenden des Formulars
+        var deleteModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        deleteModal.show();
+    });
+
+    document.getElementById('confirmDelete').addEventListener('click', function() {
+        document.getElementById('deleteProfileForm').submit(); // Sendet das Formular, wenn im Modal auf "Löschen" geklickt wird
+    });
+</script>
+</body>
+</html>
