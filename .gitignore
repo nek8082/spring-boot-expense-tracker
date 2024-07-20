@@ -39,3 +39,6 @@ mvnw*
 ### SSL Certificates ###
 nginx.crt
 nginx.key
+
+### Tar files containing docker image ###
+cashkontrolleur_docker_image_*.tar
