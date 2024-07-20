@@ -1,6 +1,9 @@
 # Spring Boot Expense Tracker
 
-This project is intended to demonstrate my programming skills. It is a simple web application that allows users to track their expenses and incomes, showcasing integration with various technologies.
+This project is intended to demonstrate my programming skills. 
+It is a simple web application that allows users to track their expenses and incomes, showcasing integration with various technologies.
+**This spring boot app only works in conjunction with the following docker compose project: [spring-boot-expense-tracker-docker-deployment
+](https://github.com/nek8082/spring-boot-expense-tracker-docker-deployment)**.
 
 ## Live Example
 
