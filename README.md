@@ -5,7 +5,7 @@ It is a simple web application that allows users to track their expenses and inc
 **This spring boot app only works in conjunction with the following docker compose project: [spring-boot-expense-tracker-docker-deployment
 ](https://github.com/nek8082/spring-boot-expense-tracker-docker-deployment)**.
 
-## Live Example
+## Live Demo
 
 A live example can be found at: [https://cashkontrolleur.de](https://cashkontrolleur.de). This application is currently running on Google Compute Engine on an ubuntu instance as a docker-compose project.
 
