@@ -5,16 +5,23 @@ It is a simple web application that allows users to track their expenses and inc
 **This spring boot app only works in conjunction with the following docker compose project: [spring-boot-expense-tracker-docker-deployment
 ](https://github.com/nek8082/spring-boot-expense-tracker-docker-deployment)**.
 
-## Live Demo
+## Screenshots
 
-A live example can be found at: [https://cashkontrolleur.de](https://cashkontrolleur.de). This application is currently running on Google Compute Engine on an ubuntu instance as a docker-compose project.
+### Dashboard
+<img src="src/main/resources/static/images/dashboard.png" alt="Dashboard" width="1000"/>
+
+### Statistics
+<img src="src/main/resources/static/images/stats.png" alt="Stats" width="1000"/>
+
+### Exports
+<img src="src/main/resources/static/images/export.png" alt="Export" width="1000"/>
 
 ## Tech Stack
 
 - **Authentication Provider:** Keycloak with OIDC login.
 - **Payment Processor:** Stripe (can be disabled in the configuration).
 - **Backend Framework:** Spring Boot, secured with Spring Security.
-- **Build Tool:** Maven, which must be installed to manage project dependencies and build lifecycle.
+  - **Build Tool:** Maven, which must be installed to manage project dependencies and build lifecycle.
 - **Frontend Technologies:** Thymeleaf and Bootstrap 5.
 - **Database Migration Tool:** Flyway is used for managing database migrations.
 - **Containerization:** The application can be containerized and the Docker image can be exported to a tar file using `deploy.sh`, eliminating the need for a container registry.
@@ -66,3 +73,7 @@ This project is provided as is, and I am not responsible for any issues that ari
 ## How to run
 1. Make sure the .env file is configured properly, you can use .env.example as a base
 2. Run the following command to start the application `./start.sh /path/to/.env`
+
+## Live Demo (currently down due to server costs)
+
+A live example can be found at: [https://cashkontrolleur.de](https://cashkontrolleur.de). This application is currently running on Google Compute Engine on an ubuntu instance as a docker-compose project.
