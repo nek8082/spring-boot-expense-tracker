@@ -2,7 +2,7 @@
 
 This project is intended to demonstrate my programming skills. It is a simple web application that allows users to track their expenses and incomes, showcasing integration with various technologies.
 
-## Live Example
+## Live Demo
 
 A live example can be found at: [https://cashkontrolleur.de](https://cashkontrolleur.de). This application is currently running on Google Compute Engine on an ubuntu instance as a docker-compose project.
 
