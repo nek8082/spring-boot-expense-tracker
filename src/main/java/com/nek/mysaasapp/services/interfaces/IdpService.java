@@ -1,4 +1,4 @@
-package com.nek.mysaasapp.services;
+package com.nek.mysaasapp.services.interfaces;
 
 import lombok.NonNull;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;

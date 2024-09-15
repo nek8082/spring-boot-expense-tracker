@@ -9,9 +9,8 @@ import java.util.List;
 
 import com.nek.mysaasapp.entities.TransactionRecord;
 import com.nek.mysaasapp.repository.TransactionRepository;
-import com.nek.mysaasapp.services.DatevExportService;
 
-import com.nek.mysaasapp.services.ExportService;
+import com.nek.mysaasapp.services.interfaces.ExportService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -1,5 +1,6 @@
 package com.nek.mysaasapp.services;
 
+import com.nek.mysaasapp.services.interfaces.IdpService;
 import jakarta.ws.rs.core.Response;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
@@ -23,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class KeycloakService implements IdpService{
+public class KeycloakService implements IdpService {
 
     @NonNull
     private final KeycloakProperties keycloakProperties;

@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import com.nek.mysaasapp.config.StripeProperties;
 import com.nek.mysaasapp.entities.AppUser;
+import com.nek.mysaasapp.services.interfaces.StripeCheckoutService;
+import com.nek.mysaasapp.services.interfaces.UserService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
@@ -25,30 +27,18 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class StripeCheckoutService {
-
-    public static final String METADATA_KEY_EMAIL = "user_email";
-    public static final String NO_USER_ENTRY_WHILE_CHECKOUT_ERR_MSG = "No user entry exists in app user table for"
-            + " authenticated user, while in checkout. This is not allowed to happen! Returning empty session";
-    public static final String CHECKOUT_SUCCESS_ENDPOINT_URL = "/checkout-success";
-    public static final String CHECKOUT_SESSION_ERR_MSG = "Something went wrong when trying to create a checkout session";
-
+public class StripeBasedCheckoutService implements StripeCheckoutService {
+    
     @NonNull
     private final StripeProperties stripeProperties;
     @NonNull
-    private final UserService userService;
-
-    /**
-     * Builds a Stripe Checkout session for the authenticated user.
-     *
-     * @return an {@link Optional} of a {@link Session} object, if the session was
-     *         successfully created. Otherwise, an empty {@link Optional} is
-     *         returned.
-     */
+    private final UserService springSecurityBasedUserService;
+    
+    @Override
     public Optional<Session> buildStripeCheckoutSession() {
         Stripe.apiKey = stripeProperties.getApiKey();
 
-        Optional<AppUser> user = userService.getAuthenticatedUser();
+        Optional<AppUser> user = springSecurityBasedUserService.getAuthenticatedUser();
         if (user.isEmpty()) {
             log.error(NO_USER_ENTRY_WHILE_CHECKOUT_ERR_MSG);
             try {

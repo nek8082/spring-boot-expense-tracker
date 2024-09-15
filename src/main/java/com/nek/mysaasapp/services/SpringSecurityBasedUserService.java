@@ -11,6 +11,9 @@ import java.util.Optional;
 import com.nek.mysaasapp.entities.AppUser;
 import com.nek.mysaasapp.repository.AppUserRepository;
 
+import com.nek.mysaasapp.services.interfaces.CancelSubscriptionService;
+import com.nek.mysaasapp.services.interfaces.IdpService;
+import com.nek.mysaasapp.services.interfaces.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,12 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService {
-
-    public static final String ROLE_UNVERIFIED = "ROLE_UNVERIFIED";
-    public static final String ROLE_VERIFIED = "ROLE_VERIFIED";
-    public static final String ROLE_PREMIUM = "ROLE_PREMIUM";
-    private static final String NO_DB_ENTRY_ERR_MSG = "User has no db entry, can not set user role";
+public class SpringSecurityBasedUserService implements UserService {
 
     @NonNull
     private final AppUserRepository appUserRepository;
@@ -40,20 +38,13 @@ public class UserService {
     @NonNull
     private final CancelSubscriptionService cancelSubscriptionService;
 
-    /**
-     * This method is called after the user has been authenticated.
-     * It checks if the user is already present in the database and if not, it creates a new entry.
-     * It also sets the user role based on the premium valid to timestamp.
-     */
+    @Override
     public void setupUser() {
         saveUserOnFirstLogin();
         setUserRoleAfterAuth();
     }
 
-    /**
-     * This method is called when the user logs out.
-     * It deletes the user from Auth0 and the database.
-     */
+    @Override
     public void deleteUser() {
         getLoggedInOidcUser().ifPresent(keycloakService::deleteUserFromIdp);
         getAuthenticatedUser().ifPresent(appUser -> {
@@ -64,10 +55,7 @@ public class UserService {
         });
     }
 
-    /**
-     * This method returns the authenticated user.
-     * @return the authenticated user
-     */
+    @Override
     public Optional<AppUser> getAuthenticatedUser() {
         Authentication authentication = getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof DefaultOidcUser oidcUser)) {

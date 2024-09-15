@@ -3,7 +3,8 @@ package com.nek.mysaasapp.rest;
 import com.nek.mysaasapp.entities.AppUser;
 import com.nek.mysaasapp.entities.TransactionRecord;
 import com.nek.mysaasapp.repository.TransactionRepository;
-import com.nek.mysaasapp.services.UserService;
+import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
+import com.nek.mysaasapp.services.interfaces.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class DashboardController {
     @NonNull
     private final TransactionRepository transactionRepository;
     @NonNull
-    private final UserService userService;
+    private final UserService springSecurityBasedUserService;
 
     @GetMapping(PREMIUM_URL)
     public String premiumEndpoint(Model model) {
@@ -58,7 +59,7 @@ public class DashboardController {
     }
 
     private String handleDashboardRequest(Model model, String... dateFilter) {
-        Optional<AppUser> authenticatedUser = userService.getAuthenticatedUser();
+        Optional<AppUser> authenticatedUser = springSecurityBasedUserService.getAuthenticatedUser();
         if (authenticatedUser.isEmpty()) {
             log.info("Could not find authenticated user, redirecting back /public");
             return "redirect:" + PUBLIC_URL;

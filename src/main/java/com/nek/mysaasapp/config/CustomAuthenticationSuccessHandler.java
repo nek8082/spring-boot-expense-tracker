@@ -3,17 +3,18 @@ package com.nek.mysaasapp.config;
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PRIVATE_URL;
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.VERIFY_EMAIL_URL;
 import static com.nek.mysaasapp.rest.binding.PaymentControllerBinding.CHECKOUT_SUCCESS_URL;
-import static com.nek.mysaasapp.services.UserService.ROLE_PREMIUM;
-import static com.nek.mysaasapp.services.UserService.ROLE_UNVERIFIED;
-import static com.nek.mysaasapp.services.UserService.ROLE_VERIFIED;
+import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_PREMIUM;
+import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_UNVERIFIED;
+import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_VERIFIED;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 import com.nek.mysaasapp.repository.AppUserRepository;
-import com.nek.mysaasapp.services.UserService;
+import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
 
+import com.nek.mysaasapp.services.interfaces.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @NonNull
-    private final UserService userService;
+    private final UserService springSecurityBasedUserService;
     @NonNull
     private final AppUserRepository userRepository;
     @NonNull
@@ -38,7 +39,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        userService.setupUser();
+        springSecurityBasedUserService.setupUser();
         processUserRedirect(response);
     }
 
@@ -65,7 +66,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     private void upgradeLoggedInUserToPremium() {
-        userService.getAuthenticatedUser().map(user -> {
+        springSecurityBasedUserService.getAuthenticatedUser().map(user -> {
             user.setUserRole(ROLE_PREMIUM);
             user.setPremiumValidTo(LocalDateTime.now().plusYears(500));
             userRepository.save(user);

@@ -1,7 +1,7 @@
 package com.nek.mysaasapp.config;
 
 import com.nek.mysaasapp.repository.AppUserRepository;
-import com.nek.mysaasapp.services.UserService;
+import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,10 +17,8 @@ import org.springframework.security.core.context.SecurityContextImpl;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -30,7 +27,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class CustomAuthenticationSuccessHandlerTest {
     @Mock
-    private UserService userService;
+    private SpringSecurityBasedUserService springSecurityBasedUserService;
     @Mock
     private AppUserRepository userRepository;
     @Mock
@@ -61,7 +58,7 @@ class CustomAuthenticationSuccessHandlerTest {
         successHandler.onAuthenticationSuccess(request, response, authentication);
 
         // Assert
-        verify(userService).setupUser();
+        verify(springSecurityBasedUserService).setupUser();
         verify(response).sendRedirect("/checkout-success");
     }
 
