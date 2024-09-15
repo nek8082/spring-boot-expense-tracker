@@ -10,10 +10,10 @@ import java.util.Optional;
 
 import com.nek.mysaasapp.entities.AppUser;
 import com.nek.mysaasapp.repository.AppUserRepository;
-
 import com.nek.mysaasapp.services.interfaces.CancelSubscriptionService;
 import com.nek.mysaasapp.services.interfaces.IdpService;
 import com.nek.mysaasapp.services.interfaces.UserService;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

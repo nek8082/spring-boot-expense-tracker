@@ -1,12 +1,5 @@
 package com.nek.mysaasapp.config;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
-
 import static com.nek.mysaasapp.rest.binding.DashboardControllerBinding.PREMIUM_URL;
 import static com.nek.mysaasapp.rest.binding.ExportControllerBinding.DATEV_EXPORT_URL;
 import static com.nek.mysaasapp.rest.binding.ExportControllerBinding.EXCEL_EXPORT_URL;
@@ -31,6 +24,14 @@ import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_UNV
 import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_VERIFIED;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.Customizer.withDefaults;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor

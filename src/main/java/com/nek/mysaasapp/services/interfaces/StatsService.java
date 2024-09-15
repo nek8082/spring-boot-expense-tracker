@@ -1,12 +1,12 @@
 package com.nek.mysaasapp.services.interfaces;
 
-import com.nek.mysaasapp.model.MonthlyStats;
-
-import lombok.NonNull;
-
 import java.time.Month;
 import java.time.Year;
 import java.util.Map;
+
+import com.nek.mysaasapp.model.MonthlyStats;
+
+import lombok.NonNull;
 
 public interface StatsService {
 

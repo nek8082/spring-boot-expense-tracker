@@ -12,7 +12,6 @@ import java.util.Optional;
 import com.nek.mysaasapp.config.StripeProperties;
 import com.nek.mysaasapp.services.StripeBasedCheckoutService;
 import com.nek.mysaasapp.services.StripeBasedValidateSubscriptionService;
-import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
 import com.nek.mysaasapp.services.interfaces.UserService;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;

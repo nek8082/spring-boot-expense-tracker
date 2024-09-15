@@ -20,9 +20,8 @@ import com.nek.mysaasapp.entities.TransactionRecord;
 import com.nek.mysaasapp.model.MonthlyStats;
 import com.nek.mysaasapp.repository.TransactionRepository;
 import com.nek.mysaasapp.services.interfaces.StatsService;
-import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
-
 import com.nek.mysaasapp.services.interfaces.UserService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

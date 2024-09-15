@@ -6,9 +6,8 @@ import java.util.Optional;
 
 import com.nek.mysaasapp.entities.AppUser;
 import com.nek.mysaasapp.repository.AppUserRepository;
-import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
-
 import com.nek.mysaasapp.services.interfaces.UserService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

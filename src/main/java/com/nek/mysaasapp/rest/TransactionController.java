@@ -16,9 +16,8 @@ import com.nek.mysaasapp.model.TransactionToDelete;
 import com.nek.mysaasapp.model.TransactionToEdit;
 import com.nek.mysaasapp.model.TransactionToSave;
 import com.nek.mysaasapp.repository.TransactionRepository;
-import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
-
 import com.nek.mysaasapp.services.interfaces.UserService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

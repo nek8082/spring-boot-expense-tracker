@@ -1,7 +1,8 @@
 package com.nek.mysaasapp.services;
 
+import com.nek.mysaasapp.config.KeycloakProperties;
 import com.nek.mysaasapp.services.interfaces.IdpService;
-import jakarta.ws.rs.core.Response;
+
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -10,8 +11,7 @@ import org.keycloak.admin.client.resource.UsersResource;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
-import com.nek.mysaasapp.config.KeycloakProperties;
-
+import jakarta.ws.rs.core.Response;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

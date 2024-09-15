@@ -11,9 +11,8 @@ import java.util.Optional;
 
 import com.nek.mysaasapp.config.StripeProperties;
 import com.nek.mysaasapp.entities.AppUser;
-import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
-
 import com.nek.mysaasapp.services.interfaces.UserService;
+
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

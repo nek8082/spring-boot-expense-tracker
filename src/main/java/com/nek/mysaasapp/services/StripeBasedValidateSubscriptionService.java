@@ -1,7 +1,7 @@
 package com.nek.mysaasapp.services;
 
-import static com.nek.mysaasapp.services.StripeBasedCheckoutService.METADATA_KEY_EMAIL;
 import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_PREMIUM;
+import static com.nek.mysaasapp.services.StripeBasedCheckoutService.METADATA_KEY_EMAIL;
 import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.ok;
 

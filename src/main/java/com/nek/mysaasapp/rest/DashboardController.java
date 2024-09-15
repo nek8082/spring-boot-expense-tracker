@@ -1,25 +1,5 @@
 package com.nek.mysaasapp.rest;
 
-import com.nek.mysaasapp.entities.AppUser;
-import com.nek.mysaasapp.entities.TransactionRecord;
-import com.nek.mysaasapp.repository.TransactionRepository;
-import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
-import com.nek.mysaasapp.services.interfaces.UserService;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.List;
-import java.util.Optional;
-
 import static com.nek.mysaasapp.entities.TransactionRecord.moneyFormat;
 import static com.nek.mysaasapp.model.ThymeleafConstants.CURRENT_AMOUNT_THYMELEAF_MODEL_ATTRIBUTE_NAME;
 import static com.nek.mysaasapp.model.ThymeleafConstants.INITIAL_BALANCE_THYMELEAF_MODEL_ATTRIBUTE_NAME;
@@ -34,6 +14,27 @@ import static com.nek.mysaasapp.util.TransactionUtil.setBalanceAfterForAllEntrie
 import static com.nek.mysaasapp.util.TransactionUtil.sumExpenses;
 import static com.nek.mysaasapp.util.TransactionUtil.sumIncome;
 import static com.nek.mysaasapp.util.TransactionUtil.sumTaxAmount;
+
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.Optional;
+
+import com.nek.mysaasapp.entities.AppUser;
+import com.nek.mysaasapp.entities.TransactionRecord;
+import com.nek.mysaasapp.repository.TransactionRepository;
+import com.nek.mysaasapp.services.interfaces.UserService;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor

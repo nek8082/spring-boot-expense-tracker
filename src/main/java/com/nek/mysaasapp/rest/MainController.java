@@ -11,9 +11,8 @@ import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_VER
 import java.util.Optional;
 
 import com.nek.mysaasapp.entities.AppUser;
-import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
-
 import com.nek.mysaasapp.services.interfaces.UserService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

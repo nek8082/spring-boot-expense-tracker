@@ -12,9 +12,8 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 import com.nek.mysaasapp.repository.AppUserRepository;
-import com.nek.mysaasapp.services.SpringSecurityBasedUserService;
-
 import com.nek.mysaasapp.services.interfaces.UserService;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

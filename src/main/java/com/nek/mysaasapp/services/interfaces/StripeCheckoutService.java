@@ -1,26 +1,8 @@
 package com.nek.mysaasapp.services.interfaces;
 
-import static com.stripe.param.checkout.SessionCreateParams.Mode.SUBSCRIPTION;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
-import com.nek.mysaasapp.config.StripeProperties;
-import com.nek.mysaasapp.entities.AppUser;
-import com.stripe.Stripe;
-import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
-import com.stripe.param.checkout.SessionCreateParams;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.stereotype.Service;
-
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 public interface StripeCheckoutService {
 
