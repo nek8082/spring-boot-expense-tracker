@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DatevExportService {
+public class DatevExportService implements ExportService {
 
     private static final String EXCEL_FILE_GENERATION_ERR_MSG = "Failed to generate Excel file";
     private static final String DOCUMENT_DATE = "Belegdatum";
@@ -33,12 +33,7 @@ public class DatevExportService {
     private static final String TAX_RATE = "Steuersatz";
     private static final String BOOKING_DATE = "Buchungsdatum";
 
-    /**
-     * Exports the given list of transactions to a CSV file.
-     *
-     * @param transactions the list of transactions to export
-     * @param writer the PrintWriter to write the CSV file
-     */
+    @Override
     public void exportTransactionsToCsv(@NonNull List<TransactionRecord> transactions, @NonNull PrintWriter writer) {
         writer.println(DOCUMENT_DATE + "," + VOUCHER_NUMBER + "," + BOOKING_TEXT + "," + TURNOVER + "," + DEBIT_CREDIT + ","
             + ACCOUNT + "," + COUNTER_ACCOUNT + "," + TAX_RATE + "," + BOOKING_DATE);
@@ -60,12 +55,7 @@ public class DatevExportService {
         writer.flush();
     }
 
-    /**
-     * Exports the given list of transactions to an Excel file.
-     *
-     * @param transactions the list of transactions to export
-     * @return the byte array of the Excel file
-     */
+    @Override
     public byte[] exportTransactionsToExcel(@NonNull List<TransactionRecord> transactions) {
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             Sheet sheet = workbook.createSheet("Transactions");

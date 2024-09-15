@@ -36,9 +36,9 @@ public class UserService {
     @NonNull
     private final AppUserRepository appUserRepository;
     @NonNull
-    private final KeycloakService keycloakService;
+    private final IdpService keycloakService;
     @NonNull
-    private final StripeCancelSubscriptionService cancelSubscriptionService;
+    private final CancelSubscriptionService cancelSubscriptionService;
 
     /**
      * This method is called after the user has been authenticated.
@@ -55,7 +55,7 @@ public class UserService {
      * It deletes the user from Auth0 and the database.
      */
     public void deleteUser() {
-        getLoggedInOidcUser().ifPresent(keycloakService::deleteUserFromKeycloak);
+        getLoggedInOidcUser().ifPresent(keycloakService::deleteUserFromIdp);
         getAuthenticatedUser().ifPresent(appUser -> {
             if (ROLE_PREMIUM.equals(appUser.getUserRole())) {
                 cancelSubscriptionService.cancelSubscription(appUser);

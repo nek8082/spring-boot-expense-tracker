@@ -19,6 +19,7 @@ import com.nek.mysaasapp.entities.AppUser;
 import com.nek.mysaasapp.entities.TransactionRecord;
 import com.nek.mysaasapp.model.MonthlyStats;
 import com.nek.mysaasapp.repository.TransactionRepository;
+import com.nek.mysaasapp.services.MonthlyStatsService;
 import com.nek.mysaasapp.services.StatsService;
 import com.nek.mysaasapp.services.UserService;
 
@@ -37,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 public class StatsController {
 
     @NonNull
-    private final StatsService statsService;
+    private final StatsService monthlyStatsService;
     @NonNull
     private final UserService userService;
     @NonNull
@@ -56,7 +57,7 @@ public class StatsController {
             int firstYear = firstTransaction.get().getDate().getYear();
             int latestYear = latestTransaction.get().getDate().getYear();
             int selectedYear = year == null ? latestYear : year;
-            Map<Month, MonthlyStats> monthlyStatsMap = statsService.calculateMonthlyStats(Year.of(selectedYear));
+            Map<Month, MonthlyStats> monthlyStatsMap = monthlyStatsService.calculateMonthlyStats(Year.of(selectedYear));
             model.addAttribute(STATS_THYMELEAF_MODEL_ATTRIBUTE_NAME, monthlyStatsMap);
             model.addAttribute(FIRST_YEAR_THYMELEAF_MODEL_ATTRIBUTE_NAME, firstYear);
             model.addAttribute(LATEST_YEAR_THYMELEAF_MODEL_ATTRIBUTE_NAME, latestYear);
