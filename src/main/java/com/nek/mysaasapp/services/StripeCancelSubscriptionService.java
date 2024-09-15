@@ -5,6 +5,7 @@ import static com.stripe.model.Subscription.retrieve;
 import com.nek.mysaasapp.config.CustomProperties;
 import com.nek.mysaasapp.config.StripeProperties;
 import com.nek.mysaasapp.entities.AppUser;
+import com.nek.mysaasapp.services.interfaces.CancelSubscriptionService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Subscription;

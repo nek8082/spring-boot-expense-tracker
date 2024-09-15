@@ -19,9 +19,8 @@ import com.nek.mysaasapp.entities.AppUser;
 import com.nek.mysaasapp.entities.TransactionRecord;
 import com.nek.mysaasapp.model.MonthlyStats;
 import com.nek.mysaasapp.repository.TransactionRepository;
-import com.nek.mysaasapp.services.MonthlyStatsService;
-import com.nek.mysaasapp.services.StatsService;
-import com.nek.mysaasapp.services.UserService;
+import com.nek.mysaasapp.services.interfaces.StatsService;
+import com.nek.mysaasapp.services.interfaces.UserService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,13 +39,13 @@ public class StatsController {
     @NonNull
     private final StatsService monthlyStatsService;
     @NonNull
-    private final UserService userService;
+    private final UserService springSecurityBasedUserService;
     @NonNull
     private final TransactionRepository transactionRepository;
 
     @GetMapping(STATS_URL)
     public String statsEndpoint(@RequestParam(required = false) Integer year, Model model) {
-        Optional<AppUser> user = userService.getAuthenticatedUser();
+        Optional<AppUser> user = springSecurityBasedUserService.getAuthenticatedUser();
         if (user.isPresent()) {
             List<TransactionRecord> transactions = transactionRepository.findByUser(user.get());
             Optional<TransactionRecord> firstTransaction = getFirstTransaction(transactions);

@@ -1,7 +1,7 @@
 package com.nek.mysaasapp.services;
 
-import static com.nek.mysaasapp.services.StripeCheckoutService.METADATA_KEY_EMAIL;
-import static com.nek.mysaasapp.services.UserService.ROLE_PREMIUM;
+import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_PREMIUM;
+import static com.nek.mysaasapp.services.StripeBasedCheckoutService.METADATA_KEY_EMAIL;
 import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -11,6 +11,7 @@ import java.util.Optional;
 import com.nek.mysaasapp.config.StripeProperties;
 import com.nek.mysaasapp.entities.AppUser;
 import com.nek.mysaasapp.repository.AppUserRepository;
+import com.nek.mysaasapp.services.interfaces.StripeValidateSubscriptionService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
@@ -30,36 +31,13 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class StripeValidateSubscriptionService {
+public class StripeBasedValidateSubscriptionService implements StripeValidateSubscriptionService {
 
     @NonNull
     private final AppUserRepository appUserRepository;
     private final StripeProperties stripeProperties;
 
-    public static final String DESERIALIZATION_FAILED_MESSAGE = "Could not deserialize event: ";
-    public static final String PAYMENT_SUCCEEDED_MESSAGE = "Payment succeeded, handling premium timestamp.";
-    public static final String UNHANDLED_EVENT_TYPE_MESSAGE = "Unhandled event type: ";
-    public static final String USER_NOT_IN_DB_WARNING = "Received checkout.session.completed event message for user: {}, "
-        + "which has no db entry. Not handling event any further.";
-    public static final String SUBSCRIPTION_IS_NULL_ERROR_MESSAGE =
-        "Subscription object is null, can't update premium status" + " for user";
-    public static final String UNSUPPORTED_STRIPE_OBJECT_ERROR_MESSAGE = "Unsupported StripeObject type: {}";
-    public static final String SUBSCRIPTION_ID_IS_NULL_ERROR_MESSAGE = "Subscription ID is null";
-    public static final String STRIPE_EXCEPTION_MESSAGE = "An exception occurred when retrieving subscription";
-    public static final String UPDATING_ROLE_PREMIUM_MESSAGE = "Saving user with updated role {} in DB";
-    public static final String UPDATING_ROLE_PREMIUM_SECURITY_CONTEXT_MESSAGE =
-        "Settings user role in the security context to {}";
-    public static final String INVOICE_DEBUG_LOG_MSG = "Invoice: {}";
-    public static final String SESSION_DEBUG_LOG = "Session: {}";
-
-    /**
-     * Handles incoming Stripe events by deserializing the nested object and performing
-     * actions based on the event type.
-     *
-     * @param event the Stripe event object received from the webhook.
-     * @return a {@link ResponseEntity<String>} indicating the result of the event handling.
-     *         Returns OK (200) if the event is handled successfully, otherwise returns BAD REQUEST (400).
-     */
+    @Override
     public ResponseEntity<String> handleStripeEvent(@NonNull Event event) {
 
         // Deserialize the nested object inside the event

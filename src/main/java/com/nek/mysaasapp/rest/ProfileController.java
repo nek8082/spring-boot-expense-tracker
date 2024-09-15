@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import com.nek.mysaasapp.config.StripeProperties;
 import com.nek.mysaasapp.entities.AppUser;
-import com.nek.mysaasapp.services.UserService;
+import com.nek.mysaasapp.services.interfaces.UserService;
 
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -30,13 +30,13 @@ import lombok.extern.slf4j.Slf4j;
 public class ProfileController {
 
     @NonNull
-    private final UserService userService;
+    private final UserService springSecurityBasedUserService;
     @NonNull
     private final StripeProperties stripeProperties;
 
     @GetMapping(PROFILE_URL)
     public String profileEndpoint(Model model) {
-        Optional<AppUser> user = userService.getAuthenticatedUser();
+        Optional<AppUser> user = springSecurityBasedUserService.getAuthenticatedUser();
         if (user.isEmpty()) {
             log.warn("No authenticated user found!");
             return "redirect:" + PUBLIC_URL;
@@ -49,7 +49,7 @@ public class ProfileController {
 
     @PostMapping(PROFILE_URL)
     public String deleteProfileEndpoint(HttpServletRequest request) {
-        userService.deleteUser();
+        springSecurityBasedUserService.deleteUser();
         new SecurityContextLogoutHandler().logout(request, null, null);
         return "redirect:" + PUBLIC_URL;
     }

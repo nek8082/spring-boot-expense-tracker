@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.nek.mysaasapp.entities.AppUser;
 import com.nek.mysaasapp.repository.AppUserRepository;
-import com.nek.mysaasapp.services.UserService;
+import com.nek.mysaasapp.services.interfaces.UserService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EditBalanceController {
 
     @NonNull
-    private final UserService userService;
+    private final UserService springSecurityBasedUserService;
     @NonNull
     private final AppUserRepository userRepository;
 
@@ -34,7 +34,7 @@ public class EditBalanceController {
 
     @PostMapping(UPDATE_INITIAL_BALANCE_URL)
     public String updateInitialBalance(@RequestParam("initialBalance") double initialBalance) {
-        Optional<AppUser> authenticatedUser = userService.getAuthenticatedUser();
+        Optional<AppUser> authenticatedUser = springSecurityBasedUserService.getAuthenticatedUser();
         if (authenticatedUser.isPresent()) {
             AppUser appUser = authenticatedUser.get();
             appUser.setInitialBalance(initialBalance);

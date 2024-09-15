@@ -5,13 +5,13 @@ import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PRIVATE_URL;
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PUBLIC_URL;
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.ROOT_URL;
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.VERIFY_EMAIL_URL;
-import static com.nek.mysaasapp.services.UserService.ROLE_PREMIUM;
-import static com.nek.mysaasapp.services.UserService.ROLE_VERIFIED;
+import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_PREMIUM;
+import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_VERIFIED;
 
 import java.util.Optional;
 
 import com.nek.mysaasapp.entities.AppUser;
-import com.nek.mysaasapp.services.UserService;
+import com.nek.mysaasapp.services.interfaces.UserService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MainController {
 
     @NonNull
-    private final UserService userService;
+    private final UserService springSecurityBasedUserService;
 
     @GetMapping(ROOT_URL)
     public String rootEndpoint() {
@@ -35,7 +35,7 @@ public class MainController {
 
     @GetMapping(PUBLIC_URL)
     public String publicEndpoint() {
-        Optional<AppUser> user = userService.getAuthenticatedUser();
+        Optional<AppUser> user = springSecurityBasedUserService.getAuthenticatedUser();
         if (user.isEmpty()) {
             return "public";
         } else if (ROLE_VERIFIED.equals(user.get().getUserRole())) {

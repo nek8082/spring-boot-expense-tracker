@@ -1,7 +1,8 @@
-package com.nek.mysaasapp.services;
+package com.nek.mysaasapp.services.interfaces;
+
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 import lombok.NonNull;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
 public interface IdpService {
 

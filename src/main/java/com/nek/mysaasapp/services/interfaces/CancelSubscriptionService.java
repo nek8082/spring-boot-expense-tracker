@@ -1,6 +1,7 @@
-package com.nek.mysaasapp.services;
+package com.nek.mysaasapp.services.interfaces;
 
 import com.nek.mysaasapp.entities.AppUser;
+
 import lombok.NonNull;
 
 public interface CancelSubscriptionService {

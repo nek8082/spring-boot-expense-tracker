@@ -19,6 +19,8 @@ import com.nek.mysaasapp.entities.AppUser;
 import com.nek.mysaasapp.entities.TransactionRecord;
 import com.nek.mysaasapp.model.MonthlyStats;
 import com.nek.mysaasapp.repository.TransactionRepository;
+import com.nek.mysaasapp.services.interfaces.StatsService;
+import com.nek.mysaasapp.services.interfaces.UserService;
 
 import org.springframework.stereotype.Service;
 
@@ -32,13 +34,13 @@ import lombok.extern.slf4j.Slf4j;
 public class MonthlyStatsService implements StatsService {
 
     @NonNull
-    private final UserService userService;
+    private final UserService springSecurityBasedUserService;
     @NonNull
     private final TransactionRepository transactionRepository;
 
     @Override
     public Map<Month, MonthlyStats> calculateMonthlyStats(@NonNull Year year) {
-        Optional<AppUser> user = userService.getAuthenticatedUser();
+        Optional<AppUser> user = springSecurityBasedUserService.getAuthenticatedUser();
         if (user.isPresent()) {
             List<TransactionRecord> transactions = transactionRepository.findByUser(user.get());
             transactions = setBalanceAfterForAllEntries(user.get().getInitialBalance(), transactions);

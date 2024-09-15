@@ -16,7 +16,7 @@ import com.nek.mysaasapp.model.TransactionToDelete;
 import com.nek.mysaasapp.model.TransactionToEdit;
 import com.nek.mysaasapp.model.TransactionToSave;
 import com.nek.mysaasapp.repository.TransactionRepository;
-import com.nek.mysaasapp.services.UserService;
+import com.nek.mysaasapp.services.interfaces.UserService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +37,7 @@ public class TransactionController {
     @NonNull
     private final TransactionRepository transactionRepository;
     @NonNull
-    private final UserService userService;
+    private final UserService springSecurityBasedUserService;
 
     @GetMapping(TRANSACTION_SAVE_URL)
     public String getSaveTransaction() {
@@ -46,7 +46,7 @@ public class TransactionController {
 
     @GetMapping(TRANSACTION_EDIT_GET_URL)
     public String getEditTransaction(@PathVariable Long transactionId, Model model) {
-        Optional<AppUser> appUser = userService.getAuthenticatedUser();
+        Optional<AppUser> appUser = springSecurityBasedUserService.getAuthenticatedUser();
         if (appUser.isPresent()) {
             List<TransactionRecord> transactions = transactionRepository.findByUser(appUser.get());
             Optional<TransactionRecord> record = transactionRepository.findById(transactionId);
@@ -70,7 +70,7 @@ public class TransactionController {
 
     @PostMapping(TRANSACTION_EDIT_URL)
     public String postEditTransaction(@ModelAttribute TransactionToEdit transaction) {
-        Optional<AppUser> user = userService.getAuthenticatedUser();
+        Optional<AppUser> user = springSecurityBasedUserService.getAuthenticatedUser();
         if (user.isPresent()) {
             List<TransactionRecord> transactions = transactionRepository.findByUser(user.get());
             Optional<TransactionRecord> record = transactionRepository.findById(transaction.transactionId());
@@ -94,7 +94,7 @@ public class TransactionController {
 
     @PostMapping(TRANSACTION_SAVE_URL)
     public String saveTransaction(@ModelAttribute TransactionToSave transaction) {
-        Optional<AppUser> user = userService.getAuthenticatedUser();
+        Optional<AppUser> user = springSecurityBasedUserService.getAuthenticatedUser();
         if (user.isPresent()) {
             TransactionRecord record = new TransactionRecord(user.get(), transaction.date(), transaction.voucherNumber(),
                 transaction.description(), transaction.category(), transaction.paymentMethod(), transaction.counterAccount(),
@@ -106,7 +106,7 @@ public class TransactionController {
 
     @PostMapping(TRANSACTION_DELETE_URL)
     public String deleteTransaction(@ModelAttribute TransactionToDelete transaction) {
-        Optional<AppUser> user = userService.getAuthenticatedUser();
+        Optional<AppUser> user = springSecurityBasedUserService.getAuthenticatedUser();
         if (user.isPresent()) {
             transactionRepository.deleteById(transaction.id());
         }

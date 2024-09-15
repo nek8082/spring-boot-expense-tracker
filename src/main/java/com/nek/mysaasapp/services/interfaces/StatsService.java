@@ -1,13 +1,12 @@
-package com.nek.mysaasapp.services;
-
-import com.nek.mysaasapp.model.MonthlyStats;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-
-import lombok.NonNull;
+package com.nek.mysaasapp.services.interfaces;
 
 import java.time.Month;
 import java.time.Year;
 import java.util.Map;
+
+import com.nek.mysaasapp.model.MonthlyStats;
+
+import lombok.NonNull;
 
 public interface StatsService {
 
