@@ -23,21 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class KeycloakService {
+public class KeycloakService implements IdpService{
 
     @NonNull
     private final KeycloakProperties keycloakProperties;
 
     public static final String DELETE_USER_KEYCLOAK_ERR_MSG = "Something went wrong when trying to delete user {} from keycloak:";
 
-    /**
-     * Deletes an OIDC user from the Keycloak user management system.
-     * This method retrieves an access token and uses it to request the deletion of a user from Keycloak.
-     * Logs the response status code upon successful deletion or logs an error if the deletion fails.
-     *
-     * @param user The OIDCUser to delete from Keycloak, not null.
-     */
-    public void deleteUserFromKeycloak(@NonNull OidcUser user) {
+    @Override
+    public void deleteUserFromIdp(@NonNull OidcUser user) {
         try {
             Keycloak keycloak = KeycloakBuilder.builder()
             .serverUrl(keycloakProperties.getAuthServerUrl())

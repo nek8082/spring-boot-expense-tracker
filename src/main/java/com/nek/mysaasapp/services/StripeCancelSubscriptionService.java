@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class StripeCancelSubscriptionService {
+public class StripeCancelSubscriptionService implements CancelSubscriptionService {
 
     @NonNull
     private final StripeProperties stripeProperties;
@@ -32,11 +32,7 @@ public class StripeCancelSubscriptionService {
     public static final String PAYMENT_DISABLED_AND_NO_ID_INFO_MSG =
         "User has no subscription id and payments are disabled in config, no need to cancel subscription";
 
-    /**
-     * Cancels the subscription of the given user.
-     *
-     * @param appUser the user whose subscription should be canceled
-     */
+    @Override
     public void cancelSubscription(@NonNull AppUser appUser) {
         if (customProperties.isRemovePayment() && appUser.getSubscriptionId() == null) {
             log.info(PAYMENT_DISABLED_AND_NO_ID_INFO_MSG);

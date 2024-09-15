@@ -11,6 +11,7 @@ import com.nek.mysaasapp.entities.TransactionRecord;
 import com.nek.mysaasapp.repository.TransactionRepository;
 import com.nek.mysaasapp.services.DatevExportService;
 
+import com.nek.mysaasapp.services.ExportService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ExportController {
 
     @NonNull
-    private final DatevExportService datevExportService;
+    private final ExportService datevExportService;
     @NonNull
     private final TransactionRepository transactionRepository;
 
