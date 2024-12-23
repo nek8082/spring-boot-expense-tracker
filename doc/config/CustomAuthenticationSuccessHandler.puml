@@ -38,7 +38,7 @@ Auth -> Response : return authorities
 
 alt authority is ROLE_PREMIUM
     Response -> Client : redirect to CHECKOUT_SUCCESS_URL
-else authority is ROLE_VERIFIED and payment not disabled
+else authority is ROLE_NON_PREMIUM and payment not disabled
     Response -> Client : redirect to PRIVATE_URL
 else authority is ROLE_UNVERIFIED
     Response -> Client : redirect to VERIFY_EMAIL_URL

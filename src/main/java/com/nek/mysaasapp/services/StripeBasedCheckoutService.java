@@ -53,24 +53,23 @@ public class StripeBasedCheckoutService implements StripeCheckoutService {
         metadata.put(METADATA_KEY_EMAIL, getUserEmail());
 
         SessionCreateParams params =
-            SessionCreateParams.builder()
-                               .setSuccessUrl(stripeProperties.getBaseUrl() + CHECKOUT_SUCCESS_ENDPOINT_URL)
-                               .addLineItem(SessionCreateParams.LineItem.builder()
-                                                                        .setPrice(stripeProperties.getPrice())
-                                                                        .setQuantity(1L)
-                                                                        .build())
-                               .setAutomaticTax(SessionCreateParams.AutomaticTax.builder()
-                                                                                .setEnabled(true) // Aktiviere automatische
-                                                                                                  // Steuerberechnung
-                                                                                .build())
-                               .setMode(SUBSCRIPTION)
-                               .setCustomerEmail(getUserEmail())
-                               .setSubscriptionData(SessionCreateParams.SubscriptionData.builder()
-                                                                                        .putAllMetadata(metadata)
-                                                                                        .setTrialPeriodDays(30L)
-                                                                                        .build())
-                               .putAllMetadata(metadata)
-                               .build();
+                SessionCreateParams.builder()
+                        .setSuccessUrl(stripeProperties.getBaseUrl() + CHECKOUT_SUCCESS_ENDPOINT_URL)
+                        .addLineItem(SessionCreateParams.LineItem.builder()
+                                .setPrice(stripeProperties.getPrice())
+                                .setQuantity(1L)
+                                .build())
+                        .setAutomaticTax(SessionCreateParams.AutomaticTax.builder()
+                                .setEnabled(true) // Enable automatic tax calculation
+                                .build())
+                        .setMode(SUBSCRIPTION)
+                        .setCustomerEmail(getUserEmail())
+                        .setSubscriptionData(SessionCreateParams.SubscriptionData.builder()
+                                .putAllMetadata(metadata)
+                                .setTrialPeriodDays(30L)
+                                .build())
+                        .putAllMetadata(metadata)
+                        .build();
 
         try {
             return Optional.of(Session.create(params));

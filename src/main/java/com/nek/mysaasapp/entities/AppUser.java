@@ -29,8 +29,8 @@ public class AppUser {
 
     private LocalDateTime premiumValidTo;
 
-    @Column(length = 50)
-    private String userRole = "ROLE_UNVERIFIED";
+    @Column(length = 50, nullable = false)
+    private String userRole;
 
     @Column
     private String subscriptionId;

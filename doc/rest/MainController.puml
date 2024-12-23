@@ -20,7 +20,7 @@ alt user is not authenticated
 else user is verified
     US -> MC : return Optional.of(user)
     MC -> MC : check user role
-    alt user has ROLE_VERIFIED
+    alt user has ROLE_NON_PREMIUM
         MC -> Client : redirect to /private
     else user has ROLE_PREMIUM
         MC -> Client : redirect to /premium

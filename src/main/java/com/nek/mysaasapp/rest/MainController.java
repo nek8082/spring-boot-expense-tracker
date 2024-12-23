@@ -4,9 +4,8 @@ import static com.nek.mysaasapp.rest.binding.DashboardControllerBinding.PREMIUM_
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PRIVATE_URL;
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PUBLIC_URL;
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.ROOT_URL;
-import static com.nek.mysaasapp.rest.binding.MainControllerBinding.VERIFY_EMAIL_URL;
 import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_PREMIUM;
-import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_VERIFIED;
+import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_NON_PREMIUM;
 
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class MainController {
         Optional<AppUser> user = springSecurityBasedUserService.getAuthenticatedUser();
         if (user.isEmpty()) {
             return "public";
-        } else if (ROLE_VERIFIED.equals(user.get().getUserRole())) {
+        } else if (ROLE_NON_PREMIUM.equals(user.get().getUserRole())) {
             return "redirect:" + PRIVATE_URL;
         } else if (ROLE_PREMIUM.equals(user.get().getUserRole())) {
             return "redirect:" + PREMIUM_URL;
@@ -49,10 +48,5 @@ public class MainController {
     @GetMapping(PRIVATE_URL)
     public String privateEndpoint() {
         return "private";
-    }
-
-    @GetMapping(VERIFY_EMAIL_URL)
-    public String verifyEmailEndpoint() {
-        return "verify-email";
     }
 }
