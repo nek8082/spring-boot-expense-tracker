@@ -85,6 +85,7 @@ public class SpringSecurityBasedUserService implements UserService {
         AppUser newUser = new AppUser();
         newUser.setEmail(email);
         newUser.setPremiumValidTo(LocalDateTime.now());
+        newUser.setUserRole(ROLE_VERIFIED);
         appUserRepository.save(newUser);
         log.info("New user created with email: {}", email);
     }

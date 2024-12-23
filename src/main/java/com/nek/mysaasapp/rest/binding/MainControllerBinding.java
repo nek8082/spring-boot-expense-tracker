@@ -13,5 +13,4 @@ public class MainControllerBinding {
     public static final String ROOT_URL = "/";
     public static final String PUBLIC_URL = "/public";
     public static final String PRIVATE_URL = "/private";
-    public static final String VERIFY_EMAIL_URL = "/verify-email";
 }

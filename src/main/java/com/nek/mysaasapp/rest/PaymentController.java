@@ -1,6 +1,7 @@
 package com.nek.mysaasapp.rest;
 
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PRIVATE_URL;
+import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PUBLIC_URL;
 import static com.nek.mysaasapp.rest.binding.PaymentControllerBinding.CHECKOUT_SUCCESS_URL;
 import static com.nek.mysaasapp.rest.binding.PaymentControllerBinding.CHECKOUT_URL;
 import static com.nek.mysaasapp.rest.binding.PaymentControllerBinding.WEBHOOK_URL;
@@ -42,7 +43,7 @@ public class PaymentController {
     @PostMapping(CHECKOUT_URL)
     public String checkout() throws StripeException {
         Optional<Session> session = stripeBasedCheckoutService.buildStripeCheckoutSession();
-        return session.map(value -> "redirect:" + value.getUrl()).orElse("redirect:" + PRIVATE_URL);
+        return session.map(value -> "redirect:" + value.getUrl()).orElse("redirect:" + PUBLIC_URL);
     }
 
     @GetMapping(CHECKOUT_SUCCESS_URL)
@@ -53,7 +54,7 @@ public class PaymentController {
 
     @PostMapping(WEBHOOK_URL)
     public ResponseEntity<String> handleStripeEvent(@RequestBody String payload,
-        @RequestHeader(STRIPE_SIGNATURE_HEADER_NAME) String sigHeader) {
+                                                    @RequestHeader(STRIPE_SIGNATURE_HEADER_NAME) String sigHeader) {
         Event event;
         try {
             event = constructEvent(payload, sigHeader, stripeProperties.getWebhookSecret());

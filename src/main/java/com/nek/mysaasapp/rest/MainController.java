@@ -4,7 +4,6 @@ import static com.nek.mysaasapp.rest.binding.DashboardControllerBinding.PREMIUM_
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PRIVATE_URL;
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PUBLIC_URL;
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.ROOT_URL;
-import static com.nek.mysaasapp.rest.binding.MainControllerBinding.VERIFY_EMAIL_URL;
 import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_PREMIUM;
 import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_VERIFIED;
 
@@ -49,10 +48,5 @@ public class MainController {
     @GetMapping(PRIVATE_URL)
     public String privateEndpoint() {
         return "private";
-    }
-
-    @GetMapping(VERIFY_EMAIL_URL)
-    public String verifyEmailEndpoint() {
-        return "verify-email";
     }
 }

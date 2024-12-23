@@ -1,10 +1,8 @@
 package com.nek.mysaasapp.config;
 
 import static com.nek.mysaasapp.rest.binding.MainControllerBinding.PRIVATE_URL;
-import static com.nek.mysaasapp.rest.binding.MainControllerBinding.VERIFY_EMAIL_URL;
 import static com.nek.mysaasapp.rest.binding.PaymentControllerBinding.CHECKOUT_SUCCESS_URL;
 import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_PREMIUM;
-import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_UNVERIFIED;
 import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_VERIFIED;
 
 import java.io.IOException;
@@ -59,8 +57,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             response.sendRedirect(CHECKOUT_SUCCESS_URL);
         } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals(ROLE_VERIFIED))) {
             response.sendRedirect(PRIVATE_URL);
-        } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals(ROLE_UNVERIFIED))) {
-            response.sendRedirect(VERIFY_EMAIL_URL);
         }
     }
 

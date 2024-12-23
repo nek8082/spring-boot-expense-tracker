@@ -5,8 +5,6 @@ import java.util.Optional;
 import com.nek.mysaasapp.entities.AppUser;
 
 public interface UserService {
-
-    String ROLE_UNVERIFIED = "ROLE_UNVERIFIED";
     String ROLE_VERIFIED = "ROLE_VERIFIED";
     String ROLE_PREMIUM = "ROLE_PREMIUM";
     String NO_DB_ENTRY_ERR_MSG = "User has no db entry, can not set user role";
