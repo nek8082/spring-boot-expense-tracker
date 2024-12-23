@@ -85,7 +85,7 @@ public class SpringSecurityBasedUserService implements UserService {
         AppUser newUser = new AppUser();
         newUser.setEmail(email);
         newUser.setPremiumValidTo(LocalDateTime.now());
-        newUser.setUserRole(ROLE_VERIFIED);
+        newUser.setUserRole(ROLE_NON_PREMIUM);
         appUserRepository.save(newUser);
         log.info("New user created with email: {}", email);
     }
@@ -123,7 +123,7 @@ public class SpringSecurityBasedUserService implements UserService {
         if (isPremiumValid) {
             return ROLE_PREMIUM;
         } else {
-            return ROLE_VERIFIED;
+            return ROLE_NON_PREMIUM;
         }
     }
 

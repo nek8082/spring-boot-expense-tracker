@@ -19,7 +19,7 @@ import static com.nek.mysaasapp.rest.binding.StatsControllerBinding.STATS_URL;
 import static com.nek.mysaasapp.rest.binding.TransactionControllerBinding.TRANSACTION_DELETE_URL;
 import static com.nek.mysaasapp.rest.binding.TransactionControllerBinding.TRANSACTION_SAVE_URL;
 import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_PREMIUM;
-import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_VERIFIED;
+import static com.nek.mysaasapp.services.SpringSecurityBasedUserService.ROLE_NON_PREMIUM;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -75,7 +75,7 @@ public class SecurityConfig {
                         TRANSACTION_DELETE_URL)
                 .hasAuthority(ROLE_PREMIUM)
                 .requestMatchers(CHECKOUT_URL)
-                .hasAuthority(ROLE_VERIFIED)
+                .hasAuthority(ROLE_NON_PREMIUM)
                 .anyRequest()
                 .authenticated());
     }
