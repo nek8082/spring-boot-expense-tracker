@@ -46,11 +46,9 @@ public class SecurityConfig {
     }
 
     private void configureWebSecurity(HttpSecurity http) throws Exception {
-        http.cors(withDefaults())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
+        http
                 .oauth2Login(oauth2Login -> oauth2Login.successHandler(customAuthenticationSuccessHandler))
                 .logout(logout -> logout.logoutSuccessUrl(PUBLIC_URL).permitAll())
-                .oauth2Client(withDefaults())
                 .csrf(csrf -> csrf.ignoringRequestMatchers(WEBHOOK_URL));
     }
 
