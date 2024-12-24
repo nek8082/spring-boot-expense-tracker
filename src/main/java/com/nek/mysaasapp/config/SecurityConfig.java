@@ -53,8 +53,9 @@ public class SecurityConfig {
     }
 
     /*
-     * This is where we configure the security required for our endpoints and setup our app to serve as
-     * an OAuth2 Resource Server, using JWT validation.
+     * This is where we configure the security required for our endpoints.
+     * The app is not configured as an OAuth2 Resource Server, as it does not validate incoming JWTs.
+     * Authentication is handled via sessions established after a successful OAuth2 login.
      */
     private void configureAuthorizations(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorize) -> authorize
