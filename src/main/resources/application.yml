@@ -33,9 +33,6 @@ spring:
               user-info-uri: "http://${keycloak.host}:${keycloak.port}/keycloak/realms/${keycloak.realm}/protocol/openid-connect/userinfo"
               jwk-set-uri: "http://${keycloak.host}:${keycloak.port}/keycloak/realms/${keycloak.realm}/protocol/openid-connect/certs"
               authorization-uri: "${spring.security.oauth2.client.provider.keycloak.issuer-uri}/protocol/openid-connect/auth"
-      resourceserver:
-        jwt:
-          issuer-uri: "${spring.security.oauth2.client.provider.keycloak.issuer-uri}"
 
 proxy:
   host: ${PROXY_HOST}
